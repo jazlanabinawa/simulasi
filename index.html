@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>penting</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            color: #764ba2;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .emoji {
+            font-size: 70px;
+            animation: bounce 1s infinite;
+            user-select: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .question {
+            font-size: 1.3em;
+            margin: 25px 0;
+            color: #333;
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+            position: relative;
+            min-height: 120px;
+        }
+
+        button {
+            padding: 18px 30px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            width: 100%;
+            touch-action: manipulation;
+        }
+
+        .btn-yes {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.3);
+        }
+
+        .btn-yes:active {
+            transform: scale(0.95);
+        }
+
+        .btn-no {
+            background: #e0e0e0;
+            color: #666;
+            position: absolute;
+            width: calc(100% - 0px);
+            transition: all 0.3s ease;
+        }
+
+        .hearts {
+            position: fixed;
+            font-size: 25px;
+            animation: float 3s ease-in infinite;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .success {
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+            animation: celebrate 0.5s ease-out;
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .success h2 {
+            color: #f5576c;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .success p {
+            font-size: 1.1em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .hint {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="question-box">
+            <div class="emoji">😏</div>
+            <h1>psst... Denger!</h1>
+            <p class="question">lu mau gak jadi pacar gue?</p>
+            <div class="buttons">
+                <button class="btn-yes" onclick="sayYes()">mau bangett😍</button>
+                <button class="btn-no" id="btnNo" ontouchstart="moveButton(event)" onmouseover="moveButton(event)">ntarrr🤔</button>
+            </div>
+            <p class="hint" id="hint" style="display: none;">*jawab yang atas aja, bel🥹</p>
+        </div>
+
+        <div class="success" id="success-box">
+            <div class="emoji">🎉</div>
+            <h2>ALHAMDULILLAH! 🥳</h2>
+            <p>akhirnya jadi pacarnya abel</p>
+            <p style="margin-top: 15px;">siap-siap ya dibikin bahagia terus, bel💖</p>
+            <p style="margin-top: 20px; font-size: 2.5em;"></p>
+        </div>
+    </div>
+
+    <script>
+        let moveCount = 0;
+
+        function moveButton(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnNo');
+            const container = document.querySelector('.buttons');
+            const hint = document.getElementById('hint');
+            
+            moveCount++;
+            
+            if (moveCount === 1) {
+                btn.style.top = '60px';
+            } else if (moveCount === 2) {
+                btn.style.top = '0px';
+                btn.textContent = 'etttt gak kena';
+            } else if (moveCount === 3) {
+                btn.style.top = '60px';
+                btn.textContent = 'serius bel?';
+            } else if (moveCount === 4) {
+                btn.style.top = '0px';
+                btn.textContent = 'pwiss🥹';
+                hint.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+                hint.style.display = 'block';
+            }
+        }
+
+        function sayYes() {
+            document.getElementById('question-box').style.display = 'none';
+            document.getElementById('success-box').classList.add('show');
+            
+            // Create floating hearts
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 300);
+            }
+            
+            // Change background
+            document.body.style.background = 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)';
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('hearts');
+            heart.textContent = ['❤️', '💕', '💖', '💗', '💝'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+        // Prevent zoom on double tap
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(e) {
+            const now = Date.now();
+            if (now - lastTouchEnd <= 300) {
+                e.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
